@@ -1,0 +1,15 @@
+<svg width="320" height="96" viewBox="0 0 320 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fortlifeShield" x1="8" y1="8" x2="70" y2="82" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E6CA8"/>
+      <stop offset="1" stop-color="#0D4F83"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M40 8L68 16V44C68 62.2 56.6 76.8 40 83C23.4 76.8 12 62.2 12 44V16L40 8Z" fill="url(#fortlifeShield)"/>
+  <path d="M40 22C32.2 22 26 28.2 26 36V41.5C26 53.1 32.4 62.4 40 66.2C47.6 62.4 54 53.1 54 41.5V36C54 28.2 47.8 22 40 22Z" fill="#EAF4FF" fill-opacity="0.95"/>
+  <path d="M30 45.5L37.2 52.8L52 38" stroke="#0D4F83" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="86" y="44" fill="#EAF4FF" font-size="30" font-family="Segoe UI, Trebuchet MS, Tahoma, sans-serif" font-weight="700">FortLife Group</text>
+  <text x="86" y="70" fill="#9DB6CE" font-size="15" font-family="Segoe UI, Trebuchet MS, Tahoma, sans-serif" font-weight="600" letter-spacing="2">SAFETY &amp; HEALTH</text>
+</svg>

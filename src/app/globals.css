@@ -1,26 +1,38 @@
+/* src/app/globals.css */
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #061625;
+  --surface: #0c2238;
+  --surface-soft: #12324f;
+  --card: rgba(10, 33, 52, 0.88);
+  --card-strong: #0b2740;
+  --text-primary: #eaf4ff;
+  --text-secondary: #9db6ce;
+  --button-primary: #0d4f83;
+  --button-secondary: #1f6ca8;
+  --accent: #22a5f6;
+  --accent-soft: #8fd4ff;
+  --border: rgba(143, 196, 235, 0.24);
+  --placeholder: #7e97ad;
+  --danger: #d23f3f;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(45, 112, 173, 0.22), transparent 38%),
+    radial-gradient(circle at 84% 82%, rgba(22, 90, 148, 0.2), transparent 34%),
+    linear-gradient(150deg, #041120 0%, #061625 42%, #0a2135 100%);
+  color: var(--text-primary);
+  font-family: "Segoe UI", "Trebuchet MS", "Tahoma", sans-serif;
+}
+
+a {
+  color: inherit;
 }
