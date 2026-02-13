@@ -1,7 +1,7 @@
 // middleware.ts
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+
+import { auth } from "@/auth";
 
 /**
  * Protege /profile y /profile/*
@@ -11,20 +11,8 @@ import { getToken } from "next-auth/jwt";
  * - Middleware corre en Edge runtime.
  * - Por eso NO debemos importar Prisma/bcrypt/auth.ts aquí.
  */
-export default async function middleware(req: NextRequest) {
-  const cookieName =
-    process.env.NODE_ENV === "production"
-      ? "__Secure-authjs.session-token"
-      : "authjs.session-token";
-
-  const token = await getToken({
-    req,
-    secret: process.env.AUTH_SECRET,
-    cookieName,
-    salt: "authjs.session-token",
-  });
-
-  const isLoggedIn = !!token;
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
   const { pathname, search } = req.nextUrl;
 
   if (!isLoggedIn) {
@@ -34,7 +22,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: ["/profile/:path*"],
