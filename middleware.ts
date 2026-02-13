@@ -12,9 +12,16 @@ import { getToken } from "next-auth/jwt";
  * - Por eso NO debemos importar Prisma/bcrypt/auth.ts aquí.
  */
 export default async function middleware(req: NextRequest) {
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-authjs.session-token"
+      : "authjs.session-token";
+
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
+    cookieName,
+    salt: "authjs.session-token",
   });
 
   const isLoggedIn = !!token;
