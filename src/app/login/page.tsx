@@ -4,7 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import { signIn } from "next-auth/react";
 
 import { isValidEmail } from "@/lib/validation";
@@ -18,6 +18,34 @@ const inputClass =
   "mt-1 w-full rounded-xl border px-3 py-3 text-sm outline-none transition placeholder:text-[var(--placeholder)]";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginPageFallback />}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageFallback() {
+  return (
+    <main className="relative min-h-screen overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(41,127,193,0.33),transparent_34%),radial-gradient(circle_at_84%_80%,rgba(25,93,150,0.28),transparent_32%)]"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(130deg,rgba(4,14,25,0.94),rgba(6,22,36,0.9),rgba(8,27,43,0.88))]"
+      />
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-5 py-10">
+        <section className="w-full max-w-xl rounded-3xl border border-[var(--border)] bg-[var(--card)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.52)] backdrop-blur-sm sm:p-8">
+          <p className="text-sm text-[var(--text-secondary)]">Cargando acceso...</p>
+        </section>
+      </div>
+    </main>
+  );
+}
+
+function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/profile";
