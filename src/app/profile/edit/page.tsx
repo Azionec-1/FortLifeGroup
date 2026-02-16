@@ -26,19 +26,20 @@ export default async function ProfileEditPage() {
         className="absolute inset-0 bg-[linear-gradient(125deg,rgba(4,14,25,0.94),rgba(6,22,36,0.9),rgba(8,27,43,0.86))]"
       />
 
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl items-center px-5 py-10 sm:px-8">
-        <div className="w-full rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.52)] backdrop-blur-sm sm:p-8 lg:p-10">
+      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl items-start px-4 py-6 sm:items-center sm:px-8 sm:py-10">
+        <div className="w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.52)] backdrop-blur-sm sm:rounded-3xl sm:p-8 lg:p-10">
           <div className="space-y-4">
-            <div className="inline-flex items-center rounded-2xl border border-[var(--border)] bg-white/5 px-3 py-2">
+            <div className="inline-flex max-w-full items-center rounded-2xl border border-[var(--border)] bg-white/5 px-3 py-2">
               <Image
                 src="/fortlife-logo.svg"
                 alt="FortLife Group"
                 width={200}
                 height={58}
                 priority
+                className="h-auto w-full max-w-[160px] sm:max-w-[200px]"
               />
             </div>
-            <h1 className="text-3xl font-semibold text-[var(--text-primary)] sm:text-4xl">
+            <h1 className="text-2xl font-semibold text-[var(--text-primary)] sm:text-4xl">
               Editar perfil
             </h1>
             <p className="text-sm text-[var(--text-secondary)] sm:text-base">
