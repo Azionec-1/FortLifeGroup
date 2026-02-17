@@ -168,12 +168,12 @@ function LoginPageContent() {
                 />
                 Recordarme
               </label>
-              <a
-                href="#"
+              <Link
+                href="/forgot-password"
                 className="font-medium text-[var(--accent-soft)] transition hover:opacity-85"
               >
                 Olvidaste tu contrasena?
-              </a>
+              </Link>
             </div>
 
             {error ? (
