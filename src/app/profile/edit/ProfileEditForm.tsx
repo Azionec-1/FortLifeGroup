@@ -19,7 +19,7 @@ type FormState = {
 };
 
 const inputClass =
-  "mt-1 w-full rounded-xl border border-[var(--border)] bg-[rgba(14,45,70,0.66)] px-3 py-3 text-sm text-[var(--text-primary)] outline-none transition placeholder:text-[var(--placeholder)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(34,165,246,0.22)]";
+  "w-full rounded-xl border border-[#d5dbe5] bg-[#f5f7fb] px-4 py-2.5 text-lg text-[#22324d] outline-none transition placeholder:text-[#8a98ad] focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f633]";
 
 export default function ProfileEditForm({ initialName, initialEmail }: Props) {
   const router = useRouter();
@@ -45,7 +45,7 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
     if (!v.ok) return v.message;
 
     if (form.newPassword.trim().length > 0 && form.currentPassword.trim().length === 0) {
-      return "Para cambiar la contrasena, debes ingresar tu contrasena actual.";
+      return "Para cambiar la contraseña, debes ingresar tu contraseña actual.";
     }
 
     return null;
@@ -74,7 +74,7 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
         }),
       });
 
-      const data: any = await res.json();
+      const data: { error?: string } = await res.json();
 
       if (!res.ok) {
         const msg = typeof data?.error === "string" ? data.error : "No se pudo actualizar el perfil.";
@@ -88,13 +88,13 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
       const passwordChanged = form.newPassword.trim().length > 0;
 
       if (emailChanged || passwordChanged) {
-        setSuccess("Perfil actualizado. Por seguridad, debes iniciar sesion de nuevo.");
+      setSuccess("Perfil actualizado. Por seguridad, debes iniciar sesión de nuevo.");
         setTimeout(() => router.push("/logout"), 1200);
       } else {
         setTimeout(() => router.push("/profile"), 800);
       }
     } catch {
-      setError("Error de conexion. Intenta nuevamente.");
+      setError("Error de conexión. Intenta nuevamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -103,7 +103,7 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-[var(--text-primary)]">Nombre</label>
+        <label className="mb-1.5 block text-lg font-semibold text-[#1f3555]">Nombre</label>
         <input
           className={inputClass}
           value={form.name}
@@ -114,7 +114,7 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[var(--text-primary)]">Email</label>
+        <label className="mb-1.5 block text-lg font-semibold text-[#1f3555]">Correo Electrónico</label>
         <input
           className={inputClass}
           value={form.email}
@@ -125,11 +125,11 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
         />
       </div>
 
-      <div className="rounded-2xl border border-[var(--border)] bg-[rgba(8,27,44,0.72)] p-4 space-y-3">
-        <p className="text-sm font-semibold text-[var(--accent-soft)]">Cambiar contrasena (opcional)</p>
+      <div className="space-y-3 rounded-xl border border-[#edf1f6] bg-[#f7f9fc] p-4">
+        <p className="text-base font-semibold text-[#2563eb]">Cambiar contraseña (opcional)</p>
 
         <div>
-          <label className="block text-sm font-medium text-[var(--text-secondary)]">Contrasena actual</label>
+          <label className="mb-1.5 block text-lg font-semibold text-[#1f3555]">Contraseña actual</label>
           <input
             className={inputClass}
             value={form.currentPassword}
@@ -138,12 +138,12 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
             }
             autoComplete="current-password"
             type="password"
-            placeholder="Necesaria si cambias contrasena"
+            placeholder="Necesaria si cambias contraseña"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-[var(--text-secondary)]">Nueva contrasena</label>
+          <label className="mb-1.5 block text-lg font-semibold text-[#1f3555]">Nueva contraseña</label>
           <input
             className={inputClass}
             value={form.newPassword}
@@ -152,7 +152,7 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
             }
             autoComplete="new-password"
             type="password"
-            placeholder="Minimo 8 caracteres"
+            placeholder="Mínimo 8 caracteres"
           />
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function ProfileEditForm({ initialName, initialEmail }: Props) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-full bg-[var(--button-primary)] px-4 py-3 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-xl bg-[#2563eb] px-4 py-2.5 text-xl font-semibold text-white shadow-[0_8px_18px_rgba(37,99,235,0.28)] transition hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSubmitting ? "Guardando..." : "Guardar cambios"}
       </button>

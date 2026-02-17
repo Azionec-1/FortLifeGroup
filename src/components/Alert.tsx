@@ -9,10 +9,10 @@ type AlertProps = {
 export function Alert({ type, message }: AlertProps) {
   const classes =
     type === "error"
-      ? "border-[rgba(210,63,63,0.45)] bg-[rgba(210,63,63,0.12)] text-red-100"
+      ? "border-[#f3b4b4] bg-[#fff2f2] text-[#b42318]"
       : type === "success"
-      ? "border-[rgba(34,197,94,0.45)] bg-[rgba(34,197,94,0.12)] text-emerald-100"
-      : "border-[var(--border)] bg-[rgba(14,45,70,0.45)] text-[var(--text-secondary)]";
+      ? "border-[#a7f3d0] bg-[#ecfdf3] text-[#166534]"
+      : "border-[#d5dbe5] bg-[#f5f7fb] text-[#4f6788]";
 
   return (
     <div className={`rounded-xl border p-3 text-sm ${classes}`}>

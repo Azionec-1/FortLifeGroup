@@ -15,7 +15,7 @@ type FormState = {
 };
 
 const inputClass =
-  "mt-1 w-full rounded-xl border px-3 py-3 text-sm outline-none transition placeholder:text-[var(--placeholder)]";
+  "w-full rounded-xl border border-[#d5dbe5] bg-[#f5f7fb] px-4 py-2.5 text-lg text-[#22324d] outline-none transition focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f633]";
 
 export default function LoginPage() {
   return (
@@ -27,19 +27,9 @@ export default function LoginPage() {
 
 function LoginPageFallback() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(41,127,193,0.33),transparent_34%),radial-gradient(circle_at_84%_80%,rgba(25,93,150,0.28),transparent_32%)]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(130deg,rgba(4,14,25,0.94),rgba(6,22,36,0.9),rgba(8,27,43,0.88))]"
-      />
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-5 py-10">
-        <section className="w-full max-w-xl rounded-3xl border border-[var(--border)] bg-[var(--card)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.52)] backdrop-blur-sm sm:p-8">
-          <p className="text-sm text-[var(--text-secondary)]">Cargando acceso...</p>
-        </section>
+    <main className="min-h-screen bg-[#f3f5f9] px-4 py-10 sm:px-8">
+      <div className="mx-auto w-full max-w-3xl rounded-3xl border border-[#e2e8f0] bg-white p-8 shadow-[0_18px_35px_rgba(15,23,42,0.08)]">
+        <p className="text-base text-[#60738f]">Cargando acceso...</p>
       </div>
     </main>
   );
@@ -53,15 +43,14 @@ function LoginPageContent() {
   const [form, setForm] = useState<FormState>({ email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [rememberMe, setRememberMe] = useState(false);
 
   const clientValidationError = useMemo(() => {
     const email = form.email.trim();
     const password = form.password;
 
     if (!email) return "El email es obligatorio.";
-    if (!isValidEmail(email)) return "El email no tiene un formato valido.";
-    if (!password) return "La contrasena es obligatoria.";
+    if (!isValidEmail(email)) return "El email no tiene un formato válido.";
+    if (!password) return "La contraseña es obligatoria.";
 
     return null;
   }, [form]);
@@ -84,100 +73,112 @@ function LoginPageContent() {
       });
 
       if (!result || result.error) {
-        setError("Email o contrasena incorrectos.");
+        setError("Email o contraseña incorrectos.");
         return;
       }
 
       router.push(callbackUrl);
     } catch {
-      setError("Error de conexion. Intenta nuevamente.");
+      setError("Error de conexión. Intenta nuevamente.");
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(41,127,193,0.33),transparent_34%),radial-gradient(circle_at_84%_80%,rgba(25,93,150,0.28),transparent_32%)]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(130deg,rgba(4,14,25,0.94),rgba(6,22,36,0.9),rgba(8,27,43,0.88))]"
-      />
-
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-5 py-10">
-        <div className="mb-8 flex flex-col items-center text-center">
-          <div className="rounded-2xl border border-[var(--border)] bg-white/5 px-3 py-2">
+    <main className="min-h-screen bg-[#f3f5f9] text-[#0a1f3d]">
+      <header className="border-b border-[#dde3ec] bg-white">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-8">
+          <div className="flex items-center gap-3">
             <Image
-              src="/fortlife-logo.svg"
+              src="/LogoFortlife.jpeg"
               alt="FortLife Group"
-              width={210}
-              height={62}
+              width={44}
+              height={44}
+              className="h-11 w-11 rounded-xl object-cover"
               priority
             />
+            <span className="text-3xl font-semibold text-[#111827]">FortLife Group</span>
           </div>
-          <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-5xl">
-            Portal de acceso SST
-          </h1>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="rounded-full px-4 py-2 text-base font-medium text-[#4b5563] transition hover:text-[#0f172a]"
+            >
+              Iniciar Sesión
+            </Link>
+            <Link
+              href="/register"
+              className="rounded-xl bg-[#2563eb] px-5 py-2.5 text-base font-semibold text-white transition hover:bg-[#1d4ed8]"
+            >
+              Registrarse
+            </Link>
+          </div>
         </div>
+      </header>
 
-        <section className="w-full max-w-xl rounded-3xl border border-[var(--border)] bg-[var(--card)] p-7 shadow-[0_24px_60px_rgba(0,0,0,0.52)] backdrop-blur-sm sm:p-8">
-          <h2 className="text-3xl font-semibold text-[var(--text-primary)]">Iniciar sesion</h2>
-          <p className="mt-2 text-sm text-[var(--text-secondary)]">
-            Ingresa con tu cuenta para continuar con tus procesos de seguridad y salud.
-          </p>
+      <section className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-8 sm:py-12">
+        <div className="mx-auto w-full max-w-xl rounded-3xl border border-[#e2e8f0] bg-white p-5 shadow-[0_18px_35px_rgba(15,23,42,0.08)] sm:p-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-base font-medium text-[#5a6f8f] transition hover:text-[#1f3b66]"
+          >
+            <span aria-hidden>&larr;</span>
+            Volver al inicio
+          </Link>
+
+          <div className="mt-5 text-center">
+            <div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#eaf0fa]">
+              <Image
+                src="/LogoFortlife.jpeg"
+                alt="FortLife Group"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-lg object-cover"
+              />
+            </div>
+            <h1 className="mt-3 text-4xl font-semibold text-[#071a3a]">Iniciar Sesión</h1>
+            <p className="mt-2 text-lg text-[#556c8d]">Accede a tu cuenta de FortLife Group</p>
+          </div>
 
           <form onSubmit={onSubmit} className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-[var(--text-primary)]">
-                Correo electronico
+              <label className="mb-1.5 block text-xl font-semibold text-[#1f3555]">
+                Correo Electrónico
               </label>
               <input
-                className={`${inputClass} border-[var(--border)] bg-[rgba(14,45,70,0.66)] text-[var(--text-primary)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(34,165,246,0.22)]`}
+                className={inputClass}
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                placeholder="nombre@empresa.com"
+                placeholder="tu@ejemplo.com"
                 autoComplete="email"
                 type="email"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-[var(--text-primary)]">
-                Contrasena
-              </label>
+              <label className="mb-1.5 block text-xl font-semibold text-[#1f3555]">Contraseña</label>
               <input
-                className={`${inputClass} border-[var(--border)] bg-[rgba(14,45,70,0.66)] text-[var(--text-primary)] focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(34,165,246,0.22)]`}
+                className={inputClass}
                 value={form.password}
                 onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                placeholder="******"
+                placeholder="********"
                 autoComplete="current-password"
                 type="password"
               />
             </div>
 
-            <div className="flex items-center justify-between gap-3 text-sm">
-              <label className="inline-flex items-center gap-2 text-[var(--text-secondary)]">
-                <input
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-[var(--border)] bg-transparent text-[var(--accent)] focus:ring-[var(--accent)]"
-                />
-                Recordarme
-              </label>
+            <div className="flex justify-end">
               <Link
                 href="/forgot-password"
-                className="font-medium text-[var(--accent-soft)] transition hover:opacity-85"
+                className="text-base font-semibold text-[#2563eb] transition hover:text-[#1d4ed8]"
               >
-                Olvidaste tu contrasena?
+                ¿Olvidaste tu contraseña?
               </Link>
             </div>
 
             {error ? (
-              <div className="rounded-xl border border-[rgba(210,63,63,0.45)] bg-[rgba(210,63,63,0.12)] p-3 text-sm text-red-100">
+              <div className="rounded-xl border border-[#f0b5b5] bg-[#fff2f2] p-3 text-base text-[#b42318]">
                 {error}
               </div>
             ) : null}
@@ -185,23 +186,82 @@ function LoginPageContent() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-2 w-full rounded-full bg-[var(--button-primary)] px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-xl bg-[#2563eb] px-4 py-2.5 text-xl font-semibold text-white shadow-[0_8px_18px_rgba(37,99,235,0.28)] transition hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSubmitting ? "Ingresando..." : "Ingresar"}
+              {isSubmitting ? "Ingresando..." : "Entrar"}
             </button>
 
-            <p className="pt-2 text-center text-sm text-[var(--text-secondary)]">
-              No tienes una cuenta?{" "}
-              <Link
-                className="font-semibold text-[var(--accent-soft)] transition hover:opacity-85"
-                href="/register"
-              >
-                Solicitala aqui
+            <p className="pt-1 text-center text-base text-[#617792]">
+              ¿No tienes cuenta?{" "}
+              <Link className="font-semibold text-[#2563eb] transition hover:text-[#1d4ed8]" href="/register">
+                Regístrate aquí
               </Link>
             </p>
           </form>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <footer className="bg-[#051737] text-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-8">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/LogoFortlife.jpeg"
+                  alt="FortLife Group"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-xl object-cover"
+                />
+                <span className="text-3xl font-semibold">FortLife Group</span>
+              </div>
+              <p className="mt-5 text-base leading-relaxed text-[#b4c3dd]">
+                Líderes en soluciones de seguridad financiera y protección familiar en toda
+                Latinoamérica.
+              </p>
+              <div className="mt-5 flex gap-3 text-[#95a8c9]">
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">FB</span>
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">X</span>
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">IG</span>
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">IN</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold">Empresa</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Sobre Nosotros</li>
+                <li>Carreras</li>
+                <li>Prensa</li>
+                <li>Contacto</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold">SST</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Normativa ISO 45001</li>
+                <li>Matriz de Riesgos</li>
+                <li>Protocolos COVID-19</li>
+                <li>Planes de Emergencia</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold">Legal</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Privacidad</li>
+                <li>Términos de Uso</li>
+                <li>Cookies</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-[#1d3357] pt-8 text-center text-sm text-[#9db1d4]">
+            Copyright 2026 FortLife Group. Todos los derechos reservados.
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

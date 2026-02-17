@@ -1,4 +1,3 @@
-// src/app/profile/edit/page.tsx
 export const dynamic = "force-dynamic";
 
 import Image from "next/image";
@@ -16,51 +15,109 @@ export default async function ProfileEditPage() {
   }
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(41,127,193,0.33),transparent_35%),radial-gradient(circle_at_85%_82%,rgba(25,93,150,0.26),transparent_32%)]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(125deg,rgba(4,14,25,0.94),rgba(6,22,36,0.9),rgba(8,27,43,0.86))]"
-      />
+    <main className="min-h-screen bg-[#f3f5f9] text-[#0a1f3d]">
+      <header className="border-b border-[#dde3ec] bg-white">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-8">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/LogoFortlife.jpeg"
+              alt="FortLife Group"
+              width={44}
+              height={44}
+              className="h-11 w-11 rounded-xl object-cover"
+              priority
+            />
+            <span className="text-3xl font-semibold text-[#111827]">FortLife Group</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/profile"
+              className="rounded-full px-4 py-2 text-base font-medium text-[#4b5563] transition hover:text-[#0f172a]"
+            >
+              Mi Perfil
+            </Link>
+            <Link
+              href="/logout"
+              className="rounded-xl bg-[#2563eb] px-5 py-2.5 text-base font-semibold text-white transition hover:bg-[#1d4ed8]"
+            >
+              Cerrar Sesión
+            </Link>
+          </div>
+        </div>
+      </header>
 
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl items-start px-4 py-6 sm:items-center sm:px-8 sm:py-10">
-        <div className="w-full rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 shadow-[0_24px_60px_rgba(0,0,0,0.52)] backdrop-blur-sm sm:rounded-3xl sm:p-8 lg:p-10">
-          <div className="space-y-4">
-            <div className="inline-flex max-w-full items-center rounded-2xl border border-[var(--border)] bg-white/5 px-3 py-2">
+      <section className="mx-auto w-full max-w-2xl px-4 py-8 sm:px-6 sm:py-10">
+        <div className="rounded-[1.6rem] border border-[#dde3ec] bg-white p-5 shadow-[0_16px_30px_rgba(15,23,42,0.08)] sm:p-6">
+          <div className="text-center">
+            <div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#eaf0fa]">
               <Image
-                src="/fortlife-logo.svg"
+                src="/LogoFortlife.jpeg"
                 alt="FortLife Group"
-                width={200}
-                height={58}
-                priority
-                className="h-auto w-full max-w-[160px] sm:max-w-[200px]"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-lg object-cover"
               />
             </div>
-            <h1 className="text-2xl font-semibold text-[var(--text-primary)] sm:text-4xl">
-              Editar perfil
-            </h1>
-            <p className="text-sm text-[var(--text-secondary)] sm:text-base">
-              Puedes actualizar nombre, email y contrasena manteniendo la seguridad del acceso.
+            <h1 className="mt-3 text-3xl font-semibold text-[#071a3a]">Editar perfil</h1>
+            <p className="mt-2 text-base text-[#556c8d]">
+              Actualiza tu nombre, correo y contraseña.
             </p>
           </div>
 
           <div className="mt-6">
             <ProfileEditForm initialName={user.name ?? ""} initialEmail={user.email} />
           </div>
-
-          <div className="mt-6">
-            <Link
-              href="/profile"
-              className="text-sm font-medium text-[var(--accent-soft)] underline underline-offset-4 transition hover:opacity-85"
-            >
-              Volver al perfil
-            </Link>
-          </div>
         </div>
       </section>
+
+      <footer className="bg-[#051737] text-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-8">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/LogoFortlife.jpeg"
+                  alt="FortLife Group"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-xl object-cover"
+                />
+                <span className="text-3xl font-semibold">FortLife Group</span>
+              </div>
+              <p className="mt-5 text-base leading-relaxed text-[#b4c3dd]">
+                Líderes en soluciones de seguridad financiera y protección familiar en toda
+                Latinoamérica.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Empresa</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Sobre Nosotros</li>
+                <li>Carreras</li>
+                <li>Prensa</li>
+                <li>Contacto</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">SST</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Normativa ISO 45001</li>
+                <li>Matriz de Riesgos</li>
+                <li>Protocolos COVID-19</li>
+                <li>Planes de Emergencia</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Legal</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Privacidad</li>
+                <li>Términos de Uso</li>
+                <li>Cookies</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

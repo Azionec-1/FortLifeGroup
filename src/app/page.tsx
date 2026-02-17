@@ -1,169 +1,209 @@
 // src/app/page.tsx
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
-const focusAreas = [
+const serviceCards = [
   {
-    title: "Asesoria SST",
-    description: "Diagnostico, implementacion y acompanamiento normativo para empresas.",
+    icon: "audit",
+    title: "Auditorías y Riesgos",
+    description: "Identificación de peligros y evaluación de riesgos bajo normativa vigente.",
+    cta: "Ver detalles",
   },
   {
-    title: "Prevencion de riesgos",
-    description: "Planes operativos para reducir incidentes y proteger al personal.",
-  },
-  {
+    icon: "book",
     title: "Capacitaciones",
-    description: "Formacion practica en seguridad y salud para todos los niveles.",
+    description: "Programas certificados de formación en prevención y salud laboral.",
+    cta: "Ver catálogo",
+  },
+  {
+    icon: "helmet",
+    title: "Gestión de EPP",
+    description: "Suministro y control de Equipos de Protección Personal de alta calidad.",
+    cta: "Saber más",
   },
 ];
 
-const impactMetrics = [
-  { label: "Riesgos intervenidos", value: "320+" },
-  { label: "Empresas asesoradas", value: "95" },
-  { label: "Horas de capacitacion", value: "2,400" },
-];
+function iconFor(name: string) {
+  if (name === "audit") return "ID";
+  if (name === "book") return "BK";
+  return "EP";
+}
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(41,127,193,0.32),transparent_36%),radial-gradient(circle_at_82%_78%,rgba(25,93,150,0.26),transparent_34%)]"
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(120deg,rgba(4,15,27,0.9),rgba(6,23,38,0.88),rgba(9,31,51,0.82))]"
-      />
+    <main className="bg-[#f3f5f9] text-[#0a1f3d]">
+      <header className="bg-white">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-8">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/LogoFortlife.jpeg"
+              alt="FortLife Group"
+              width={44}
+              height={44}
+              className="h-11 w-11 rounded-xl object-cover"
+              priority
+            />
+            <span className="text-3xl font-semibold text-[#111827]">FortLife Group</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="rounded-full px-4 py-2 text-base font-medium text-[#4b5563] transition hover:text-[#0f172a]"
+            >
+              Iniciar Sesión
+            </Link>
+            <Link
+              href="/register"
+              className="rounded-xl bg-[#2563eb] px-5 py-2.5 text-base font-semibold text-white transition hover:bg-[#1d4ed8]"
+            >
+              Registrarse
+            </Link>
+          </div>
+        </div>
+      </header>
 
-      <section className="relative z-10 mx-auto flex min-h-screen w-full max-w-6xl items-center px-5 py-12 sm:px-8 lg:px-10">
-        <div className="w-full rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-7 shadow-[0_28px_70px_rgba(0,0,0,0.48)] backdrop-blur-sm sm:p-10 lg:p-12">
-          <div className="grid gap-7 lg:grid-cols-[1.22fr_0.78fr]">
-            <div>
-              <div className="inline-flex items-center rounded-2xl border border-[var(--border)] bg-white/5 px-3 py-2">
-                <Image
-                  src="/fortlife-logo.svg"
-                  alt="FortLife Group"
-                  width={220}
-                  height={66}
-                  priority
-                />
-              </div>
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/PortadaPag.jpg')",
+          }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(0,0,0,0.74),rgba(0,0,0,0.42),rgba(0,0,0,0.64))]" />
 
-              <h1 className="mt-5 max-w-3xl text-4xl font-semibold leading-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl">
-                Seguridad y salud laboral con decisiones basadas en prevencion
-              </h1>
-
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
-                Centraliza la asesoria SST, los planes de prevencion y la capacitacion
-                de equipos en una sola plataforma para mantener entornos de trabajo
-                mas seguros y auditables.
-              </p>
-
-              <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                {impactMetrics.map((metric) => (
-                  <article
-                    key={metric.label}
-                    className="rounded-xl border border-[var(--border)] bg-[rgba(8,27,44,0.72)] px-4 py-3"
-                  >
-                    <p className="text-2xl font-semibold text-[var(--text-primary)]">
-                      {metric.value}
-                    </p>
-                    <p className="text-xs uppercase tracking-[0.08em] text-[var(--text-secondary)]">
-                      {metric.label}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </div>
-
-            <aside className="rounded-3xl border border-[var(--border)] bg-[linear-gradient(155deg,rgba(8,30,48,0.85),rgba(12,45,70,0.72))] p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--accent-soft)]">
-                Accesos
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold text-[var(--text-primary)]">
-                Gestiona tu portal
-              </h2>
-              <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                Ingresa para administrar usuarios, seguimiento de actividades y edicion
-                de perfil corporativo.
-              </p>
-
-              <div className="mt-6 grid gap-3">
-                <Link
-                  href="/login"
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--button-primary)] px-5 py-3 text-sm font-semibold text-white transition hover:brightness-110"
-                >
-                  Iniciar sesion
-                </Link>
-                <Link
-                  href="/register"
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--text-primary)] transition hover:border-[var(--accent)] hover:text-[var(--accent-soft)]"
-                >
-                  Crear cuenta
-                </Link>
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[rgba(6,23,38,0.65)] p-4">
-                <p className="text-xs uppercase tracking-[0.12em] text-[var(--accent-soft)]">
-                  Ruta preventiva
-                </p>
-                <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                  1. Diagnostico inicial<br />
-                  2. Plan de accion y capacitacion<br />
-                  3. Seguimiento y mejora continua
-                </p>
-              </div>
-            </aside>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-24 sm:px-8 sm:py-32">
+          <div className="max-w-3xl">
+            <h1 className="text-5xl font-semibold leading-tight text-white sm:text-7xl">
+              FortLife Group
+            </h1>
+            <p className="mt-5 text-2xl leading-relaxed text-white/90 sm:text-4xl">
+              Especialistas en Seguridad y Salud en el Trabajo. Protegemos el activo más
+              valioso de su empresa: su gente.
+            </p>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {focusAreas.map((area) => (
-              <article
-                key={area.title}
-                className="rounded-2xl border border-[var(--border)] bg-[rgba(8,27,44,0.72)] p-5"
-              >
-                <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-[var(--accent-soft)]">
-                  {area.title}
-                </h2>
-                <p className="mt-2 text-base text-[var(--text-primary)]">
-                  {area.description}
-                </p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-8 rounded-3xl border border-[var(--border)] bg-[rgba(5,21,36,0.78)] p-5 sm:p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent-soft)]">
-                  Proximamente
-                </p>
-                <p className="mt-1 text-lg font-semibold text-[var(--text-primary)]">
-                  Suscripciones y planes corporativos
-                </p>
-                <p className="mt-1 text-sm text-[var(--text-secondary)]">
-                  Seccion visual reservada para nuevos paquetes de servicio.
-                </p>
-              </div>
-
-              <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--button-secondary)] px-6 py-3 text-sm font-semibold text-white/95 transition hover:brightness-110"
-                >
-                  Ver suscripciones
-                </button>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] transition hover:border-[var(--accent)]"
-                >
-                  Ver planes
-                </button>
-              </div>
-            </div>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center rounded-2xl bg-white px-7 py-4 text-lg font-semibold text-[#2563eb] shadow-lg transition hover:bg-[#eaf1ff]"
+            >
+              Iniciar Sesión
+            </Link>
+            <Link
+              href="/register"
+              className="inline-flex items-center justify-center rounded-2xl bg-[#2563eb] px-7 py-4 text-lg font-semibold text-white shadow-lg transition hover:bg-[#1e4fd2]"
+            >
+              Registrarse
+            </Link>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-2xl border border-white/40 bg-[rgba(255,188,67,0.24)] px-7 py-4 text-lg font-semibold text-white backdrop-blur-sm transition hover:bg-[rgba(255,188,67,0.36)]"
+            >
+              Ver Planes
+            </button>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-2xl border border-white/30 bg-[rgba(15,23,42,0.42)] px-7 py-4 text-lg font-semibold text-white backdrop-blur-sm transition hover:bg-[rgba(15,23,42,0.6)]"
+            >
+              Suscripciones
+            </button>
           </div>
         </div>
       </section>
+
+      <section className="mx-auto w-full max-w-7xl px-4 py-20 sm:px-8">
+        <div className="text-center">
+          <h2 className="text-5xl font-semibold text-[#0b1d3a] sm:text-6xl">Gestión Integral SST</h2>
+          <div className="mx-auto mt-5 h-1 w-24 rounded-full bg-[#2563eb]" />
+          <p className="mx-auto mt-6 max-w-3xl text-xl text-[#334d6c] sm:text-3xl">
+            Soluciones normativas y preventivas para su organización.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-3">
+          {serviceCards.map((card) => (
+            <article
+              key={card.title}
+              className="rounded-3xl border border-[#d8dde8] bg-white p-8 shadow-[0_10px_25px_rgba(15,23,42,0.08)] sm:p-10"
+            >
+              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eaf0fa] text-xl font-semibold text-[#2563eb]">
+                {iconFor(card.icon)}
+              </div>
+              <h3 className="mt-7 text-5xl font-semibold text-[#0b1d3a]">{card.title}</h3>
+              <p className="mt-5 text-xl leading-relaxed text-[#334d6c]">{card.description}</p>
+              <button
+                type="button"
+                className="mt-8 text-lg font-semibold text-[#2563eb] transition hover:text-[#1d4ed8]"
+              >
+                {card.cta} -&gt;
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <footer className="bg-[#051737] text-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-8">
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/LogoFortlife.jpeg"
+                  alt="FortLife Group"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-xl object-cover"
+                />
+                <span className="text-3xl font-semibold">FortLife Group</span>
+              </div>
+              <p className="mt-5 text-base leading-relaxed text-[#b4c3dd]">
+                Líderes en soluciones de seguridad financiera y protección familiar en toda
+                Latinoamérica.
+              </p>
+              <div className="mt-5 flex gap-3 text-[#95a8c9]">
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">FB</span>
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">X</span>
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">IG</span>
+                <span className="rounded-md border border-[#28416b] px-2 py-1 text-xs">IN</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold">Empresa</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Sobre Nosotros</li>
+                <li>Carreras</li>
+                <li>Prensa</li>
+                <li>Contacto</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold">SST</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Normativa ISO 45001</li>
+                <li>Matriz de Riesgos</li>
+                <li>Protocolos COVID-19</li>
+                <li>Planes de Emergencia</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-lg font-semibold">Legal</h4>
+              <ul className="mt-4 space-y-3 text-base text-[#b4c3dd]">
+                <li>Privacidad</li>
+                <li>Términos de Uso</li>
+                <li>Cookies</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-[#1d3357] pt-8 text-center text-sm text-[#9db1d4]">
+            Copyright 2026 FortLife Group. Todos los derechos reservados.
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
