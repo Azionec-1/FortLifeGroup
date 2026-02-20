@@ -38,7 +38,7 @@ function LoginPageFallback() {
 function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/profile";
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   const [form, setForm] = useState<FormState>({ email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);

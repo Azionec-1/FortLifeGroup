@@ -12,29 +12,31 @@ datasource db {
 
 /**
  * Modelos base recomendados para Auth.js / NextAuth (Prisma Adapter).
- * Además agregamos:
+ * Ademas agregamos:
  * - name (string opcional)
  * - passwordHash (string opcional) para login con credenciales
  *
  * NOTA: passwordHash es opcional para que en el futuro puedas agregar OAuth
- * (Google, GitHub, etc.) sin necesitar contraseña local.
+ * (Google, GitHub, etc.) sin necesitar contrasena local.
  */
 
 model User {
-  id           String    @id @default(cuid())
-  name         String?
-  email        String    @unique
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
   emailVerified DateTime?
-  image        String?
+  image         String?
+  companyId     String?
 
-  // Para login con email + contraseña (Credentials)
+  // Para login con email + contrasena (Credentials)
   passwordHash String?
 
-  accounts     Account[]
-  sessions     Session[]
+  accounts Account[]
+  sessions Session[]
+  company  Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
 
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Account {
@@ -74,13 +76,292 @@ model VerificationToken {
 }
 
 model PasswordResetToken {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   email     String
-  tokenHash String    @unique
+  tokenHash String   @unique
   expiresAt DateTime
   usedAt    DateTime?
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
 
   @@index([email])
   @@index([expiresAt])
+}
+
+enum WorkerStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum HazardSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum HazardStatus {
+  PENDING
+  MITIGATED
+}
+
+enum ContractType {
+  INDEFINITE
+  FIXED_TERM
+  TEMPORARY
+  CONTRACTOR
+  INTERN
+  OTHER
+}
+
+enum AttachmentType {
+  INCIDENT_ACCIDENT
+  INCIDENT_AREA
+  INCIDENT_WORK_TYPE
+  TRAINING_EVIDENCE
+  AUDIT_EVIDENCE
+  OTHER
+}
+
+model Company {
+  id                         String                      @id @default(cuid())
+  name                       String
+  users                      User[]
+  workers                    Worker[]
+  eppDeliveries              EppDelivery[]
+  auditRecords               AuditRecord[]
+  incidentRecords            IncidentRecord[]
+  hazardRecords              HazardRecord[]
+  trainingRecords            TrainingRecord[]
+  occupationalDiseaseRecords OccupationalDiseaseRecord[]
+  services                   ServiceCatalog[]
+  plans                      Plan[]
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+}
+
+model Worker {
+  id                          String                      @id @default(cuid())
+  companyId                   String
+  workerCode                  Int
+  fullName                    String
+  dni                         String?
+  status                      WorkerStatus                @default(ACTIVE)
+  initialSstTrainingCompleted Boolean                     @default(false)
+  initialSstTrainingDate      DateTime?
+  initialSstTrainingPhotoUrl  String?
+  company                     Company                     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  eppDeliveries               EppDelivery[]
+  incidents                   IncidentRecord[]
+  trainingAttendances         TrainingAttendance[]
+  occupationalDiseaseRecords  OccupationalDiseaseRecord[]
+  createdAt                   DateTime                    @default(now())
+  updatedAt                   DateTime                    @updatedAt
+
+  @@unique([companyId, workerCode])
+  @@index([companyId, fullName])
+}
+
+model EppDelivery {
+  id          String   @id @default(cuid())
+  companyId   String
+  workerId    String
+  deliveredAt DateTime @default(now())
+  equipment   String
+  quantity    Int      @default(1)
+  deliveredBy String?
+  notes       String?
+  deliveryPhotoUrl String?
+  company     Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  worker      Worker   @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([companyId, deliveredAt])
+  @@index([workerId, deliveredAt])
+}
+
+model AuditRecord {
+  id          String            @id @default(cuid())
+  companyId   String
+  activity    String
+  responsible String
+  auditDate   DateTime
+  details     String?
+  company     Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  attachments AuditAttachment[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([companyId, auditDate])
+}
+
+model AuditAttachment {
+  id          String         @id @default(cuid())
+  auditId     String
+  type        AttachmentType @default(AUDIT_EVIDENCE)
+  fileUrl     String
+  fileName    String?
+  contentType String?
+  uploadedAt  DateTime       @default(now())
+  audit       AuditRecord    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+
+  @@index([auditId])
+}
+
+model IncidentRecord {
+  id                  String               @id @default(cuid())
+  companyId           String
+  workerId            String
+  occurredAt          DateTime
+  activityAtTime      String
+  contractType        ContractType
+  hoursWorkedBefore   Float?
+  procedureApplied    String
+  workerStatement     String
+  companyObservations String?
+  company             Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  worker              Worker               @relation(fields: [workerId], references: [id], onDelete: Restrict)
+  attachments         IncidentAttachment[]
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  @@index([companyId, occurredAt])
+  @@index([workerId, occurredAt])
+}
+
+model IncidentAttachment {
+  id          String         @id @default(cuid())
+  incidentId  String
+  type        AttachmentType
+  fileUrl     String
+  fileName    String?
+  contentType String?
+  uploadedAt  DateTime       @default(now())
+  incident    IncidentRecord @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@index([incidentId])
+}
+
+model HazardRecord {
+  id          String         @id @default(cuid())
+  companyId   String
+  title       String
+  description String?
+  severity    HazardSeverity
+  status      HazardStatus   @default(PENDING)
+  area        String?
+  detectedAt  DateTime       @default(now())
+  mitigatedAt DateTime?
+  company     Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([companyId, status, severity])
+}
+
+model TrainingRecord {
+  id           String               @id @default(cuid())
+  companyId    String
+  topic        String
+  responsible  String
+  trainingDate DateTime
+  notes        String?
+  company      Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  attendances  TrainingAttendance[]
+  attachments  TrainingAttachment[]
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  @@index([companyId, trainingDate])
+}
+
+model TrainingAttendance {
+  id         String         @id @default(cuid())
+  trainingId String
+  workerId   String
+  attended   Boolean        @default(true)
+  notes      String?
+  training   TrainingRecord @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+  worker     Worker         @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@unique([trainingId, workerId])
+  @@index([workerId])
+}
+
+model TrainingAttachment {
+  id          String         @id @default(cuid())
+  trainingId  String
+  type        AttachmentType @default(TRAINING_EVIDENCE)
+  fileUrl     String
+  fileName    String?
+  contentType String?
+  uploadedAt  DateTime       @default(now())
+  training    TrainingRecord @relation(fields: [trainingId], references: [id], onDelete: Cascade)
+
+  @@index([trainingId])
+}
+
+model OccupationalDiseaseRecord {
+  id           String   @id @default(cuid())
+  companyId    String
+  workerId     String
+  diseaseType  String
+  diagnosedAt  DateTime
+  details      String?
+  observations String?
+  company      Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  worker       Worker   @relation(fields: [workerId], references: [id], onDelete: Restrict)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([companyId, diagnosedAt])
+  @@index([workerId, diagnosedAt])
+}
+
+model ServiceCatalog {
+  id           String   @id @default(cuid())
+  companyId    String?
+  title        String
+  description  String
+  isActive     Boolean  @default(true)
+  displayOrder Int      @default(0)
+  company      Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive, displayOrder])
+  @@index([companyId])
+}
+
+model Plan {
+  id          String        @id @default(cuid())
+  companyId   String?
+  code        String        @unique
+  name        String
+  description String?
+  priceCents  Int?
+  currency    String?
+  isActive    Boolean       @default(true)
+  company     Company?      @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  benefits    PlanBenefit[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([isActive])
+  @@index([companyId])
+}
+
+model PlanBenefit {
+  id           String   @id @default(cuid())
+  planId       String
+  title        String
+  description  String?
+  displayOrder Int      @default(0)
+  plan         Plan     @relation(fields: [planId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([planId, displayOrder])
 }
